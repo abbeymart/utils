@@ -413,7 +413,7 @@ function utils( options = {} ) {
             itemPath     = itemPath.split('/')[ 1 ];
             return itemPath ? itemPath : 'mc';
         },
-        getObjectMessage( msgObject ) {
+        getParamsMessage( msgObject ) {
             let messages = '';
             Object.entries(msgObject).forEach(( [ key, msg ] ) => {
                 messages = `${messages} | ${key} : ${msg}`;
