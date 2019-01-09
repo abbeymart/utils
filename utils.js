@@ -4,10 +4,7 @@
  * @Description: @abbeymart/utils, utility functions
  */
 
-const bcrypt = require('bcrypt'),
-      hash   = require('hash.js'),
-      jwt    = require('jsonwebtoken'),
-      axios  = require('axios');
+const axios  = require('axios');
 
 function utils( options = {} ) {
     return {
@@ -346,34 +343,6 @@ function utils( options = {} ) {
                 return item;
             } catch ( e ) {
                 console.error('error getting localforage data: ', e.stack);
-            }
-        },
-        async encryptPassword( password ) {
-            try {
-                return await bcrypt.hash(password, 10);
-            } catch ( e ) {
-                console.log(`Error encrypting password: ${e.message}`);
-                return false;
-            }
-        },
-        async passwordCompare( inputPassword, userPassword ) {
-            return await bcrypt.compare(inputPassword, userPassword);
-        },
-        async getTokenServer( info, tokenSecret ) {
-            try {
-                return await jwt.sign(info, tokenSecret.toString());
-            } catch ( e ) {
-                console.log(`Error creating token: ${e.message}`);
-                return false;
-            }
-        },
-        async getHash( info, hashSecret ) {
-            try {
-                const hashInput = JSON.stringify(info) + hashSecret.toString();
-                return await hash.sha256().update(hashInput).digest('hex');
-            } catch ( e ) {
-                console.log(`Error creating hash: ${e.message}`);
-                return false;
             }
         },
         async userIpInfo( ipUrl = 'https://ipinfo.io' ) {
