@@ -1,6 +1,6 @@
 {
-  "name": "@abbeymart/utils",
-  "version": "1.0.3",
+  "name": "@mconnect/utils",
+  "version": "0.1.0",
   "description": "utility functions",
   "main": "index.js",
   "directories": {

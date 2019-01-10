@@ -1,11 +1,11 @@
-# @abbeymart/utils
+# @mconnect/utils
 
 Utility functions
 
 ## Installation
 
 ```sh
-$ npm install @abbeymart/utils
+$ npm install @mconnect/utils
 ```
 
 ## API
