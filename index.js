@@ -4,6 +4,6 @@
  * @Description: @mconnect/utils, utility functions
  */
 
-const utils = require('./utils');
+const utils = require('./src/utils');
 
 module.exports = utils;

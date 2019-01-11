@@ -4,7 +4,7 @@
  * @Description: @mconnect/utils, utility functions
  */
 
-const axios  = require('axios');
+const axios = require('axios');
 
 function utils( options = {} ) {
     return {
@@ -32,6 +32,7 @@ function utils( options = {} ) {
             return defaultLang;
         },
         getLocale( localeFiles, options = {} ) {
+            // handles both json and js configuration files
             // validate localeFiles as an object
             if ( typeof localeFiles !== 'object' ) {
                 return {
@@ -46,23 +47,27 @@ function utils( options = {} ) {
                     message: 'localeFiles should be an object with language:fileLocator key:value pairs',
                 };
             }
-            // validate localeFiles object-value(s) as json file format, for all languages
-            let isJson = false;
-            isJson     = Object.values(localeFiles).every(localeFile => {
+            // validate localeFiles object-value(s) as json or js file format, for all languages
+            let isJsonOrJs = false,
+                fileExt    = '';
+
+            isJsonOrJs = Object.values(localeFiles).every(localeFile => {
                 const fileItems = localeFile.split('.');
-                const fileExt   = fileItems[ fileItems.length - 1 ];
-                return ! ! ( fileExt === 'json' );
+                fileExt   = fileItems[ fileItems.length - 1 ];
+                return ! ! ( fileExt === 'json' || fileExt === 'js' );
             });
-            if ( ! isJson ) {
+            if ( ! isJsonOrJs || fileExt === '') {
                 return {
                     code   : 'invalidFilename',
-                    message: 'Locale file (fileLocator) should be a json file',
+                    message: 'Locale file should be a json or js file',
                 }
             }
 
             const localeType = options && options.type ? options.type : '';
             const language   = options && options.language ? options.language : 'en-US';
-            const myLocale   = require(localeFiles[ language ]); // converted json to js-object
+
+            // set the locale file contents
+            const myLocale   = require(localeFiles[ language ]); // converted json  to js-object or extract js-object
 
             switch ( localeType ) {
                 case 'mcConstants':

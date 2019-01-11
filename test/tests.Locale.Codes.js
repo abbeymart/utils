@@ -12,11 +12,18 @@ const utils  = require('../index');
 const ok     = require('./assert');
 
 let res;
+//const localeFiles = {
+//    'en-US': path.join(__dirname, 'json/codes/enUSCodes.json'),
+//    'en-CA': path.join(__dirname, 'json/codes/enCACodes.json'),
+//    'fr-CA': path.join(__dirname, 'json/codes/frCACodes.json'),
+//    'fr-FR': path.join(__dirname, 'json/codes/frFRCodes.json'),
+//};
+
 const localeFiles = {
-    'en-US': path.join(__dirname, 'json/codes/enUSCodes.json'),
-    'en-CA': path.join(__dirname, 'json/codes/enCACodes.json'),
-    'fr-CA': path.join(__dirname, 'json/codes/frCACodes.json'),
-    'fr-FR': path.join(__dirname, 'json/codes/frFRCodes.json'),
+    'en-US': path.join(__dirname, 'js/codes/enUSCodes.js'),
+    'en-CA': path.join(__dirname, 'js/codes/enCACodes.js'),
+    'fr-CA': path.join(__dirname, 'js/codes/frCACodes.js'),
+    'fr-FR': path.join(__dirname, 'js/codes/frFRCodes.js'),
 };
 
 let mcUtils,
