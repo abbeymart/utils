@@ -11,15 +11,15 @@ function utils( options = {} ) {
         async mcStore() {
             // localforage instance for client/UI only
             const storageName = options && options.storageName ? options.storageName : 'mconnectStore';
-            console.log('store-name: ', storageName);
+            // console.log('store-name: ', storageName);
             return await localforage.createInstance({ name: storageName, });
         },
         async mcStoreTest() {
             // NOTE: *****this method is strictly for testing only*****
             // localforage instance for client/UI only
-            const storageName = options && options.storageName ? options.storageName : 'mconnectStore';
-            console.log('store-name: ', storageName);
-            return storageName;
+            return (options && options.storageName ? options.storageName : 'mconnectStore');
+            // console.log('store-name: ', storageName);
+            // return storageName;
         },
         getLanguage( userLang = 'en-US' ) {
             // Define/set default language variable

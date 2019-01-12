@@ -1,7 +1,7 @@
 /**
  * @Author: abbeymart | Abi Akindele | @Created: 2019-01-06 | @Updated: 2019-01-06
  * @Company: mConnect.biz | @License: MIT
- * @Description: @abbeymart/utils testing, localStorage Name
+ * @Description: @mconnect/utils testing, localStorage Name
  */
 
 const suite  = require('mocha').suite;
