@@ -14,12 +14,12 @@
     "url": "git+https://github.com/abbeymart/utils.git"
   },
   "keywords": [
-    "response",
-    "message",
-    "messages",
-    "http",
-    "rest",
-    "socket.io"
+    "localstorage",
+    "token",
+    "regular expression",
+    "types validation",
+    "string format",
+    "number format"
   ],
   "author": "Abi Akindele [abbeymart | mconnect.biz]",
   "license": "MIT",
