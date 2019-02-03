@@ -1,6 +1,6 @@
 {
   "name": "@mconnect/utils",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "utility functions",
   "main": "index.js",
   "directories": {
@@ -33,9 +33,7 @@
     "mochawesome": "^3.1.1"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "bcrypt": "^3.0.3",
-    "hash.js": "^1.1.7",
-    "jsonwebtoken": "^8.4.0"
+    "@mconnect/res-messages": "^0.1.1",
+    "axios": "^0.18.0"
   }
 }

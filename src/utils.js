@@ -1,26 +1,14 @@
 /**
- * @Author: abbeymart | Abi Akindele | @Created: 2019-01-02 | @Updated: 2019-01-06
+ * @Author: abbeymart | Abi Akindele | @Created: 2019-01-02 | @Updated: 2019-02-03
  * @Company: mConnect.biz | @License: MIT
  * @Description: @mconnect/utils, utility functions
  */
 
-const axios = require('axios');
+const axios             = require('axios');
+const { getResMessage } = require('@mconnect/res-messages');
 
-function utils( options = {} ) {
+function utils() {
     return {
-        async mcStore() {
-            // localforage instance for client/UI only
-            const storageName = options && options.storageName ? options.storageName : 'mconnectStore';
-            // console.log('store-name: ', storageName);
-            return await localforage.createInstance({ name: storageName, });
-        },
-        async mcStoreTest() {
-            // NOTE: *****this method is strictly for testing only*****
-            // localforage instance for client/UI only
-            return (options && options.storageName ? options.storageName : 'mconnectStore');
-            // console.log('store-name: ', storageName);
-            // return storageName;
-        },
         getLanguage( userLang = 'en-US' ) {
             // Define/set default language variable
             let defaultLang = 'en-US';
@@ -49,14 +37,15 @@ function utils( options = {} ) {
             }
             // validate localeFiles object-value(s) as json or js file format, for all languages
             let isJsonOrJs = false,
-                fileExt    = '';
+                fileExt    = '',
+                fileItems;
 
             isJsonOrJs = Object.values(localeFiles).every(localeFile => {
-                const fileItems = localeFile.split('.');
+                fileItems = localeFile.split('.');
                 fileExt   = fileItems[ fileItems.length - 1 ];
                 return ! ! ( fileExt === 'json' || fileExt === 'js' );
             });
-            if ( ! isJsonOrJs || fileExt === '') {
+            if ( ! isJsonOrJs || fileItems.length < 2 ) {
                 return {
                     code   : 'invalidFilename',
                     message: 'Locale file should be a json or js file',
@@ -67,7 +56,7 @@ function utils( options = {} ) {
             const language   = options && options.language ? options.language : 'en-US';
 
             // set the locale file contents
-            const myLocale   = require(localeFiles[ language ]); // converted json  to js-object or extract js-object
+            const myLocale = require(localeFiles[ language ]); // converted json  to js-object or extract js-object
 
             switch ( localeType ) {
                 case 'mcConstants':
@@ -170,29 +159,142 @@ function utils( options = {} ) {
                     return myLocale;
             }
         },
-        async setToken( token, expire ) {
+        getLocaleClient( localeFiles, options = {} ) {
+            // validate localeFiles as an object
+            if ( typeof localeFiles !== 'object' || Object.keys(localeFiles).length < 1 || localeFiles.length < 1 ) {
+                return {
+                    code   : 'paramsError',
+                    message: 'Locale files should be an object and  not empty',
+                };
+            }
+
+            const localeType = options && options.type ? options.type : '';
+            const language   = options && options.language ? options.language : 'en-US';
+
+            // set the locale file contents
+            const myLocale = localeFiles[ language ]; // converted json  to js-object or extract js-object
+
+            switch ( localeType ) {
+                case 'mcConstants':
+                    return {
+                        getShortDesc() {
+                            return myLocale.SHORT_DESC;
+                        },
+                        getDefaultLanguage() {
+                            return myLocale.DEFAULT_LANG;
+                        },
+                        getDefaultCurrency() {
+                            return myLocale.DEFAULT_CURRENCY;
+                        },
+                        getDDPLimit() {
+                            return myLocale.DDP_LIMIT;
+                        },
+                        getCreateLogType() {
+                            return myLocale.CREATE_LOG_TYPE;
+                        },
+                        getUpdateLogType() {
+                            return myLocale.UPDATE_LOG_TYPE;
+                        },
+                        getRemoveLogType() {
+                            return myLocale.REMOVE_LOG_TYPE;
+                        },
+                        getSearchLogType() {
+                            return myLocale.SEARCH_LOG_TYPE;
+                        },
+                        getLoginType() {
+                            return myLocale.LOGIN_LOG_TYPE;
+                        },
+                        getLogoutType() {
+                            return myLocale.LOGOUT_LOG_TYPE;
+                        },
+                        getLoginTimeout() {
+                            return myLocale.LOGIN_TIMEOUT;
+                        },
+                        getStateTimeout() {
+                            return myLocale.STATE_TIMEOUT;
+                        },
+                        getRememberMeTimeout() {
+                            return myLocale.REMEMBER_TIMEOUT;
+                        },
+                        getLogCreate() {
+                            return myLocale.LOG_CREATE;
+                        },
+                        getLogRead() {
+                            return myLocale.LOG_READ;
+                        },
+                        getLogUpdate() {
+                            return myLocale.LOG_UPDATE;
+                        },
+                        getLogDelete() {
+                            return myLocale.LOG_DELETE;
+                        },
+                        getLogLogin() {
+                            return myLocale.LOG_LOGIN;
+                        },
+                        getLogLogout() {
+                            return myLocale.LOG_LOGOUT;
+                        },
+                        getMaxFileCount() {
+                            return myLocale.MAX_FILE_COUNT;
+                        },
+                        getMaxFileSize() {
+                            return myLocale.MAX_FILE_SIZE;
+                        },
+                        getMaxProductQuantity() {
+                            return myLocale.MAX_PRODUCT_QTY;
+                        },
+                        getQueryLimit() {
+                            return myLocale.QUERY_REC_LIMIT;
+                        },
+                        getDefaultCart() {
+                            return myLocale.DEFAULT_CART;
+                        },
+                        getDefaultWish() {
+                            return myLocale.DEFAULT_WISH;
+                        },
+                        getPasswordMinLength() {
+                            return myLocale.PASSWORD_MIN_LENGTH;
+                        },
+                        getLoginNameMinLength() {
+                            return myLocale.LOGIN_NAME_MIN_LENGTH;
+                        },
+                        getLoginMaxRetry() {
+                            return myLocale.LOGIN_MAX_RETRY;
+                        },
+                        getLoginLockoutTime() {
+                            return myLocale.LOGIN_LOCKOUT_TIME;
+                        },
+                        getFileUploadRoot() {
+                            return myLocale.FILE_UPLOAD_ROOT;
+                        },
+                        getAllowedDocTypes() {
+                            return myLocale.ALLOWED_DOC_TYPES;
+                        },
+                    };
+                default:
+                    return myLocale;
+            }
+        },
+        setToken( token, expire ) {
             try {
-                const mStore = await this.mcStore();
-                mStore.setItem('authToken', token);
-                mStore.setItem('authTokenExpire', expire);
+                localStorage.setItem('authToken', token);
+                localStorage.setItem('authTokenExpire', expire);
             } catch ( e ) {
                 console.error('error setting/saving localStorage item (setToken): ', e.stack);
             }
         },
-        async removeToken() {
+        removeToken() {
             try {
-                const mStore = await this.mcStore();
-                mStore.removeItem('authToken');
-                mStore.removeItem('authTokenExpire');
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('authTokenExpire');
             } catch ( e ) {
                 console.error('error removing localStorage item(removeToken): ', e.stack);
             }
         },
-        async getToken() {
+        getToken() {
             try {
-                const mStore = await this.mcStore();
-                const token  = mStore.getItem('authToken'),
-                      expire = mStore.getItem('authTokenExpire');
+                const token  = localStorage.getItem('authToken'),
+                      expire = localStorage.getItem('authTokenExpire');
                 if ( ! token || ! expire ) {
                     return null;
                 }
@@ -206,11 +308,10 @@ function utils( options = {} ) {
                 console.error('error getting localStorage item (getToken): ', e.stack);
             }
         },
-        async getTokenClient() {
+        getTokenClient() {
             try {
-                const mStore = await this.mcStore();
-                const token  = mStore.getItem('authToken'),
-                      expire = mStore.getItem('authTokenExpire');
+                const token  = localStorage.getItem('authToken'),
+                      expire = localStorage.getItem('authTokenExpire');
                 if ( ! token || ! expire ) {
                     return null;
                 }
@@ -226,34 +327,31 @@ function utils( options = {} ) {
         },
         loggedIn() {
             try {
-                return ! ! this.getTokenClient();
+                return ! ! this.getToken();
             } catch ( e ) {
                 console.error('error getting localStorage item (loggedIn): ', e.stack);
             }
         },
-        async setLoginName( name, expire ) {
+        setLoginName( name, expire ) {
             try {
-                const mStore = await this.mcStore();
-                mStore.setItem('loginName', name);
-                mStore.setItem('loginNameExpire', expire);
+                localStorage.setItem('loginName', name);
+                localStorage.setItem('loginNameExpire', expire);
             } catch ( e ) {
                 console.error('error removing localStorage item(setLoginName): ', e.stack);
             }
         },
-        async removeLoginName() {
+        removeLoginName() {
             try {
-                const mStore = await this.mcStore();
-                mStore.removeItem('loginName');
-                mStore.removeItem('loginNameExpire');
+                localStorage.removeItem('loginName');
+                localStorage.removeItem('loginNameExpire');
             } catch ( e ) {
                 console.error('error removing localStorage item(removeLoginName): ', e.stack);
             }
         },
-        async getLoginName() {
+        getLoginName() {
             try {
-                const mStore = await this.mcStore();
-                const name   = mStore.getItem('loginName'),
-                      expire = mStore.getItem('loginNameExpire');
+                const name   = localStorage.getItem('loginName'),
+                      expire = localStorage.getItem('loginNameExpire');
                 if ( ! name || ! expire ) {
                     return null;
                 }
@@ -266,54 +364,60 @@ function utils( options = {} ) {
                 console.error('error removing localStorage item(getLoginName): ', e.stack);
             }
         },
-        async setCurrentUser( userInfo ) {
+        setCurrentUser( userInfo ) {
             try {
-                const mStore = await this.mcStore();
-                mStore.setItem('currentUser', userInfo);
+                localStorage.setItem('currentUser', userInfo);
             } catch ( e ) {
                 console.error('error removing localStorage item(setCurrentUser): ', e.stack);
             }
         },
-        async removeCurrentUser() {
+        removeCurrentUser() {
             try {
-                const mStore = await this.mcStore();
-                mStore.removeItem('currentUser');
+                localStorage.removeItem('currentUser');
             } catch ( e ) {
                 console.error('error removing localStorage item(removeCurrentUser): ', e.stack);
             }
         },
-        async getCurrentUser() {
+        getCurrentUser() {
             try {
-                const mStore = await this.mcStore();
-                const user   = mStore.getItem('currentUser');
+                const user = localStorage.getItem('currentUser');
                 return user ? user : null;
             } catch ( e ) {
                 console.error('error removing localStorage item(getCurrentUser): ', e.stack);
             }
         },
-        async setApiToken( token ) {
+        setApiToken( token ) {
             try {
-                const mStore = await this.mcStore();
-                mStore.setItem('apiToken', token);
+                localStorage.setItem('apiToken', token);
             } catch ( e ) {
                 console.error('error removing localStorage item(setApiToken): ', e.stack);
             }
         },
-        async removeApiToken() {
+        removeApiToken() {
             try {
-                const mStore = await this.mcStore();
-                mStore.removeItem('apiToken');
+                localStorage.removeItem('apiToken');
             } catch ( e ) {
                 console.error('error removing localStorage item(removeApiToken): ', e.stack);
             }
         },
-        async getApiToken() {
+        getApiToken() {
             try {
-                const mStore = await this.mcStore();
-                return mStore.getItem('apiToken');
+                return localStorage.getItem('apiToken');
             } catch ( e ) {
                 console.error('error removing localStorage item(getApiToken): ', e.stack);
             }
+        },
+        async mcStore( options = {} ) {
+            // localforage instance for client/UI only
+            const storageName = options && options.storageName && typeof options.storageName === 'string' ?
+                                options.storageName : 'mconnectStore';
+            return await localforage.createInstance({ name: storageName, });
+        },
+        async mcStoreTest( options = {} ) {
+            // NOTE: *****this method is strictly for testing only*****
+            // localforage instance for client/UI only
+            return ( options && options.storageName && typeof options.storageName ?
+                     options.storageName : 'mconnectStore' );
         },
         async setItemState( itemKey, itemValue, expire ) {
             try {
@@ -392,12 +496,9 @@ function utils( options = {} ) {
             Object.entries(msgObject).forEach(( [ key, msg ] ) => {
                 messages = `${messages} | ${key} : ${msg}`;
             });
-            return {
-                code   : 'paramsError',
-                resCode: 406,
-                value  : '',
+            return getResMessage('validateError', {
                 message: messages,
-            };
+            });
         },
         getFullName( firstName, lastName, middleName = '' ) {
             if ( firstName && middleName && lastName ) {
@@ -430,7 +531,8 @@ function utils( options = {} ) {
         shortString( str, maxLength ) {
             return str.toString().length > maxLength ? str.toString().substr(0, maxLength) + '...' : str.toString();
         },
-        isProvided( param = '' ) {
+        isProvided( param ) {
+            "use strict";
             // Verify the Required status
             // Validate that the item is not empty / null / undefined
             return ! ( param === '' || param === null || param === undefined );
@@ -474,7 +576,9 @@ function utils( options = {} ) {
         },
         isEmpty( param ) {
             "use strict";
-            return ( param === '' || param === null || param === undefined || Object.keys(param).length === 0 );
+            return ( param === '' || param === null || param === undefined ||
+                     Object.keys(param).length === 0 ||
+                     ( Array.isArray(param) && param.length === 0 ) );
         },
         isNumberInRange( param, min = 0, max = 0 ) {
             if ( ( this.isNumberDigit(param) || this.isNumberFloat(param) ) && ( min < max ) ) {
@@ -499,17 +603,6 @@ function utils( options = {} ) {
             // Validate that param is a string (alphanumeric, chars/numbers only)
             const alphaNumericPattern = /^[a-zA-Z0-9-_]+$/;
             return alphaNumericPattern.test(param);
-        },
-        isPrime( num ) {
-            // create array from the num
-            let nums = [];
-            for ( let i = 2; i < num; i ++ ) {
-                nums.push(i);
-            }
-            // check is num is divisible by all values from 2 up to num-1
-            return nums.every(item => {
-                return num % item === 0;
-            });
         },
         isPassword( param ) {
             const testPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{6,15}$/;
@@ -628,6 +721,21 @@ function utils( options = {} ) {
         isDateTypeMDYString() {
             // Validate param is date, Day-Month-YYYY (20-March-2016)
 
+        },
+        pluralize( n, itemName, itemPlural = '' ) {
+            // @TODO: retrieve plural for itemName from language dictionary {name: plural}
+            let itemNamePlural = '';
+            if ( ! itemPlural ) {
+                itemNamePlural = 'tbd'
+                // itemNamePlural = mcPlurals[ itemName ];
+            } else {
+                itemNamePlural = itemPlural;
+            }
+            let result = `${n} ${itemName}`;
+            if ( n > 1 ) {
+                result = `${n} ${itemName}${itemNamePlural}`;
+            }
+            return result;
         },
     }
 }

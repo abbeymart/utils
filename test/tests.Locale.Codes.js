@@ -1,15 +1,14 @@
 /**
- * @Author: abbeymart | Abi Akindele | @Created: 2019-01-03 | @Updated: 2019-01-03
+ * @Author: abbeymart | Abi Akindele | @Created: 2019-01-03 | @Updated: 2019-02-03
  * @Company: mConnect.biz | @License: MIT
  * @Description: @mconnect/utils testing, locales/Codes
  */
 
-const suite  = require('mocha').suite;
-const test   = require('mocha').test;
-const before = require('mocha').before;
-const path   = require('path');
-const utils  = require('../index');
-const ok     = require('./assert');
+const { suite, test, before } = require('mocha');
+
+const path  = require('path');
+const utils = require('../index');
+const ok    = require('./assert');
 
 let res;
 //const localeFiles = {

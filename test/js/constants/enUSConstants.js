@@ -17,7 +17,7 @@ const enUSConstants = {
     MAX_FILE_SIZE        : 10485760,
     DEFAULT_LANG         : 'en-US',
     DEFAULT_CURRENCY     : 'USD',
-    READ_LOG_TYPE        : 'Create',
+    READ_LOG_TYPE        : 'Read',
     CREATE_LOG_TYPE      : 'Create',
     SEARCH_LOG_TYPE      : 'Search',
     UPDATE_LOG_TYPE      : 'Update',
