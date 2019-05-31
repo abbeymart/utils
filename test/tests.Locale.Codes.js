@@ -4,7 +4,7 @@
  * @Description: @mconnect/utils testing, locales/Codes
  */
 
-const { suite, test, before } = require('mocha');
+const {suite, test, before} = require('mocha');
 
 const path  = require('path');
 const utils = require('../index');
@@ -36,36 +36,36 @@ suite('@mconnect/locales package Testing - Codes:', () => {
     suite('Positive testing:', () => {
         test('should return valid type', () => {
             res       = "langType";
-            const req = mcUtils.getLocale(localeFiles, options);
-            ok(res === req[ 0 ].type, `response should be: ${res}`);
+            const req = mcUtils.getLocale2(localeFiles, options);
+            ok(res === req[0].type, `response should be: ${res}`);
         });
         test('should return valid description', () => {
             res       = "Languages (en-US, en-CA, en-UK, fr-CA, fr-FR etc.)";
-            const req = mcUtils.getLocale(localeFiles, options);
-            ok(res === req[ 0 ].desc, `response should be: ${res}`);
+            const req = mcUtils.getLocale2(localeFiles, options);
+            ok(res === req[0].desc, `response should be: ${res}`);
         });
         test('should return valid isActive status', () => {
             res       = true;
-            const req = mcUtils.getLocale(localeFiles, options);
-            ok(res === req[ 0 ].isActive, `response should be: ${res}`);
+            const req = mcUtils.getLocale2(localeFiles, options);
+            ok(res === req[0].isActive, `response should be: ${res}`);
         });
         test('should return items.length > 0', () => {
             res       = 0;
-            const req = mcUtils.getLocale(localeFiles, options);
-            ok(req[ 0 ].items.length > res, `response should be greater than: ${res}`);
+            const req = mcUtils.getLocale2(localeFiles, options);
+            ok(req[0].items.length > res, `response should be greater than: ${res}`);
         });
         test('should return items.length < 20', () => {
             res       = 20;
-            const req = mcUtils.getLocale(localeFiles, options);
-            ok(req[ 0 ].items.length < res, `response should be less than: ${res}`);
+            const req = mcUtils.getLocale2(localeFiles, options);
+            ok(req[0].items.length < res, `response should be less than: ${res}`);
         });
     });
 
     suite('Negative testing:', () => {
         test('should not return invalid desc', () => {
             res       = "Languages (en-US, en-CA, en-UK, fr-CA, fr-FR etc....)";
-            const req = mcUtils.getLocale(localeFiles, options);
-            ok(res !== req[ 0 ].desc, `response should not be: ${res}`);
+            const req = mcUtils.getLocale2(localeFiles, options);
+            ok(res !== req[0].desc, `response should not be: ${res}`);
         });
     });
 });

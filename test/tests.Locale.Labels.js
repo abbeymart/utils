@@ -30,15 +30,15 @@ before(() => {
 suite('@mconnect/locales package Testing - Labels:', () => {
     suite('Positive testing:', () => {
         test('should return valid solution', () => {
-            const req = mcUtils.getLocale(localeFiles, options);
+            const req = mcUtils.getLocale2(localeFiles, options);
             ok(req[ 'solution' ] === solution, `response should be: ${solution}`);
         });
         test('should return valid packageGroup', () => {
-            const req = mcUtils.getLocale(localeFiles, options);
+            const req = mcUtils.getLocale2(localeFiles, options);
             ok(req[ 'packageGroup' ] === packageGroup, `response should be: ${packageGroup}`);
         });
         test('should return valid package-name', () => {
-            const req = mcUtils.getLocale(localeFiles, options);
+            const req = mcUtils.getLocale2(localeFiles, options);
             ok(req[ 'package' ] === packageName, `response should be: ${packageName}`);
         });
     });
@@ -46,7 +46,7 @@ suite('@mconnect/locales package Testing - Labels:', () => {
     suite('Negative testing:', () => {
         test('should not return invalid solution', () => {
             const sol = 'mconnect100';
-            const req = mcUtils.getLocale(localeFiles, options);
+            const req = mcUtils.getLocale2(localeFiles, options);
             ok(req[ 'solution' ] !== sol, `response should be ${solution}`);
         });
     });

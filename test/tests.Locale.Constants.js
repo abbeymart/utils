@@ -33,26 +33,26 @@ before(() => {
 suite('@mconnect/locales package Testing - Constants:', () => {
     suite('Positive testing:', () => {
         test('should return valid SHORT_DESC', () => {
-            const req = mcUtils.getLocale(localeFiles, options);
+            const req = mcUtils.getLocale2(localeFiles, options);
             ok(req.getShortDesc() === SHORT_DESC, `response should be: ${SHORT_DESC}`);
         });
         test('should return valid MAX_FILE_COUNT', () => {
-            const req = mcUtils.getLocale(localeFiles, options);
+            const req = mcUtils.getLocale2(localeFiles, options);
             ok(req.getMaxFileCount() === MAX_FILE_COUNT, `response should be: ${MAX_FILE_COUNT}`);
         });
         test('should return valid LOGIN_TIMEOUT', () => {
-            const req = mcUtils.getLocale(localeFiles, options);
+            const req = mcUtils.getLocale2(localeFiles, options);
             ok(req.getLoginTimeout() === LOGIN_TIMEOUT, `response should be: ${LOGIN_TIMEOUT}`);
         });
         test('should return valid DEFAULT_LANG', () => {
-            const req = mcUtils.getLocale(localeFiles, options);
+            const req = mcUtils.getLocale2(localeFiles, options);
             ok(req.getDefaultLanguage() === DEFAULT_LANG, `response should be: ${DEFAULT_LANG}`);
         });
     });
 
     suite('Negative testing:', () => {
         test('should not return invalid MAX_FILE_COUNT', () => {
-            const req = mcUtils.getLocale(localeFiles, options);
+            const req = mcUtils.getLocale2(localeFiles, options);
             ok(req.getMaxFileCount() < 11, `response should not be greater than ${MAX_FILE_COUNT}`);
         });
     });
