@@ -1,11 +1,12 @@
 /**
- * @Author: abbeymart | Abi Akindele | @Created: 2019-01-02 | @Updated: 2019-05-30
+ * @Author: abbeymart | Abi Akindele | @Created: 2019-01-02 | @Updated: 2019-07-06
  * @Company: mConnect.biz | @License: MIT
  * @Description: @mconnect/utils, utility functions
  */
 
 // Import required modules
 const {getResMessage} = require('@mconnect/res-messages');
+const localforage     = require('localforage');
 
 function utils() {
     return {
