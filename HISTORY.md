@@ -1,11 +1,12 @@
 # Historical logs
 
-- TODO: update @mconnect/res-messages
+## Version 0.2.2
+- Released April 06, 2020
+- resolved npm security alert issues (minimist, lodash and mem)
 
 ## Version 0.2.1
 - Released July 06, 2019
 - resolved localforage issue, installed/user npm package
-
 
 ## Version 0.2.0
 - Released June 02, 2019
